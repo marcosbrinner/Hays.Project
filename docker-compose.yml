@@ -1,0 +1,21 @@
+version: '3.8'
+services: 
+    marcosmysqlserver:
+        image: mcr.microsoft.com/mssql/server:2017-latest-ubuntu
+        environment: 
+            ACCEPT_EULA: "Y"
+            SA_PASSWORD: "Abc@123456"
+            MSSQL_PID: Express
+        ports: 
+            - "1433:1433"
+    marcoshaysapi:
+        build: .
+        depends_on: 
+            - marcosmysqlserver
+        environment: 
+            ServerName: "marcosmysqlserver"
+            Database: "MarcosHays"
+            UserName: "SA"
+            Password: "Abc@123456"
+        ports: 
+            - "9090:80"
